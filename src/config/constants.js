@@ -1,0 +1,25 @@
+module.exports = {
+  BARCODE_NUMBER: 115466450,
+  PRODUCT_STATUS: {
+    INVISIBLE: 1,
+    VISIBLE: 2,
+  },
+
+  NOTIFICATION_TYPE: {
+    DEFAULT: 0,
+    INQURY: 1,
+    CATALOGUPDATE: 2,
+  },
+
+  ROLE_ID: {
+    ADMIN: "67c7f10c649455253d5c1c27",
+    USER: "67c7f104649455253d5c1c23",
+    SUB_ADMIN: "67c7f821649455253d5c1c46",
+  },
+
+  INQUIRY_STATUS: {
+    PENDING: 1,
+    ACCEPT: 2,
+    REJECT: 3,
+  },
+};

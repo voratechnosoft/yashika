@@ -1,0 +1,35 @@
+version: 0.2
+phases:
+  install:
+    commands:
+       - yum update
+       - yum install -y awscli git python3
+       - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+       - chmod +x kubectl
+       - mv ./kubectl /usr/local/bin/kubectl
+  pre_build: 
+    commands: 
+    - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+  build:
+    commands:
+        - docker login -u $DOCKERHUB_USER -p "$DOCKERHUB_PASSWORD" $DOCKERHUB_URL 
+        - docker build . -t $IMAGE_REPO_NAME:$COMMIT_HASH -f Dockerfile
+        - docker logout
+        - docker tag $IMAGE_REPO_NAME:$COMMIT_HASH $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$COMMIT_HASH
+        - aws ecr get-login-password --region ca-central-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+        - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$COMMIT_HASH
+  post_build:
+    commands:
+      - sed -i 's@CONTAINER_IMAGE@'"$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$COMMIT_HASH"'@' resimpli-api-v2.yaml
+      - sed -i 's@CERT_ARN@'"$CERT_ARN"'@' resimpli-api-v2.yaml
+      - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $CLUSTER_NAME
+      - kubectl apply -f resimpli-api-v2.yaml
+      - echo Deployed $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$COMMIT_HASH      - sed -i 's@CONTAINER_IMAGE@'"$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$COMMIT_HASH"'@' resimpli-api-v2.yaml
+      - sed -i 's@CERT_ARN@'"$CERT_ARN"'@' resimpli-api-v2.yaml
+      - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $CLUSTER_NAME
+      - kubectl apply -f resimpli-api-v2.yaml
+      - echo Deployed $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$COMMIT_HASH      - sed -i 's@CONTAINER_IMAGE@'"$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$COMMIT_HASH"'@' resimpli-api-v2.yaml
+      - sed -i 's@CERT_ARN@'"$CERT_ARN"'@' resimpli-api-v2.yaml
+      - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $CLUSTER_NAME
+      - kubectl apply -f resimpli-api-v2.yaml
+      - echo Deployed $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$COMMIT_HASH

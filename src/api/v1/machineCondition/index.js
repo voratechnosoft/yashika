@@ -1,6 +1,5 @@
 const { Router } = require("express");
 const commonResolver = require("../../../utils/commonResolver");
-const multer = require("multer");
 const router = new Router();
 
 // SCHEMA

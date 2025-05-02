@@ -1,6 +1,7 @@
 const ObjectId = require("mongodb").ObjectId;
 const dbService = require("../../utils/dbService");
 const Message = require("../../utils/messages");
+const constants = require("../../config/constants");
 
 const getHomeDetails = async (payload) => {
   try {
@@ -26,10 +27,12 @@ const getHomeDetails = async (payload) => {
 
     let trendingFilter = {
       isDeleted: false,
+      iProductStatus: constants?.PRODUCT_STATUS?.VISIBLE,
     };
 
     let sellerFilter = {
       isDeleted: false,
+      iProductStatus: constants?.PRODUCT_STATUS?.VISIBLE,
     };
 
     if (vCategoryId) {

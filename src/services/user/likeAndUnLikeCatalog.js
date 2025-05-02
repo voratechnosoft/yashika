@@ -1,6 +1,7 @@
 const ObjectId = require("mongodb").ObjectId;
 const dbService = require("../../utils/dbService");
 const Message = require("../../utils/messages");
+const constants = require("../../config/constants");
 
 const likeAndUnLikeCatalog = async (entry) => {
   try {
@@ -11,6 +12,7 @@ const likeAndUnLikeCatalog = async (entry) => {
 
     let condition = {
       _id: new ObjectId(vCatalogId),
+      iProductStatus: constants?.PRODUCT_STATUS?.VISIBLE,
       isDeleted: false,
     };
 

@@ -2,6 +2,7 @@ const ObjectId = require("mongodb").ObjectId;
 const dbService = require("../../utils/dbService");
 const Message = require("../../utils/messages");
 const paginationFn = require("../../utils/pagination");
+const constants = require("../../config/constants");
 
 const getAllSeller = async (entry) => {
   try {
@@ -17,6 +18,7 @@ const getAllSeller = async (entry) => {
 
     let filter = {
       isDeleted: false,
+      iProductStatus: constants?.PRODUCT_STATUS?.VISIBLE,
     };
 
     let aggregateSellerQuery = [

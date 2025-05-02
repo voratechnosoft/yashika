@@ -1,6 +1,7 @@
 const ObjectId = require("mongodb").ObjectId;
 const dbService = require("../../utils/dbService");
 const Message = require("../../utils/messages");
+const constants = require("../../config/constants");
 const paginationFn = require("../../utils/pagination");
 
 const getAllTrending = async (entry) => {
@@ -17,6 +18,7 @@ const getAllTrending = async (entry) => {
 
     let filter = {
       isDeleted: false,
+      iProductStatus: constants?.PRODUCT_STATUS?.VISIBLE,
     };
 
     let aggregateTrendingQuery = [

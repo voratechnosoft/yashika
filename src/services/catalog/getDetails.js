@@ -1,6 +1,7 @@
 const ObjectId = require("mongodb").ObjectId;
 const dbService = require("../../utils/dbService");
 const Message = require("../../utils/messages");
+const constants = require("../../config/constants");
 
 const getDetails = async (entry) => {
   try {
@@ -25,6 +26,7 @@ const getDetails = async (entry) => {
 
     let filter = {
       isDeleted: false,
+      iProductStatus: constants?.PRODUCT_STATUS?.VISIBLE,
       _id: new ObjectId(vCatalogId),
     };
 

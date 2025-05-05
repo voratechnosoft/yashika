@@ -5,6 +5,7 @@
 
 # Node artifact files
 node_modules/
+package-lock.json/
 dist/
 .env/
 /src/utils/yashika-app-b867e-firebase-adminsdk-fbsvc-73c46e46bc.json

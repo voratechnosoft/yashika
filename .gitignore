@@ -9,6 +9,7 @@ node_modules/
 dist/
 /.env
 /src/utils/yashika-app-b867e-firebase-adminsdk-fbsvc-73c46e46bc.json
+/public
 
 # Compiled Java class files
 *.class

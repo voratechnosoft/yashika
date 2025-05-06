@@ -68,6 +68,7 @@ const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
       left: "10mm",
     },
   });
+  
 
   await browser.close();
 };

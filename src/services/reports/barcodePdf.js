@@ -58,19 +58,21 @@ const generateHtmlContent = async (data) => {
 // Puppeteer-based PDF generation
 const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
   const browser = await puppeteer.launch({
-    headless: "new",
+    executablePath: '/usr/bin/chromium-browser',
+    headless: true,
+    // headless: "new",
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
-      "--disable-gpu",
-      "--disable-dev-shm-usage",
-      "--disable-extensions",
-      "--disable-background-networking",
-      "--disable-sync",
-      "--metrics-recording-only",
-      "--mute-audio",
-      "--no-first-run",
-      "--safebrowsing-disable-auto-update",
+      // "--disable-gpu",
+      // "--disable-dev-shm-usage",
+      // "--disable-extensions",
+      // "--disable-background-networking",
+      // "--disable-sync",
+      // "--metrics-recording-only",
+      // "--mute-audio",
+      // "--no-first-run",
+      // "--safebrowsing-disable-auto-update",
     ],
   });
 

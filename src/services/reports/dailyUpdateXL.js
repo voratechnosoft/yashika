@@ -191,7 +191,7 @@ async function createExcelFile(filePath, vMachinId, dtStart, dtEnd) {
     item?.iCalculateOldStitch,
     item?.iCurrentStitch,
     item?.iRunningStitch,
-    item?.bonusValue,
+    parseInt(item?.bonusValue),
   ]);
 
   rowData.forEach((row) => worksheet.addRow(row));

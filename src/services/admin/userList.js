@@ -72,9 +72,9 @@ const userList = async (payload) => {
           isDeleted: 1,
         },
       },
-      { $sort: sortBy },
-      { $skip: noOfDocSkip },
-      { $limit: docLimit },
+      { $sort: { _id: -1 } },
+      // { $skip: noOfDocSkip },
+      // { $limit: docLimit },
     ];
 
     const dataList = await dbService.aggregateData("UserModel", aggregateQuery);

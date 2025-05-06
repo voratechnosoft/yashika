@@ -3,39 +3,53 @@ const pdf = require("html-pdf");
 const puppeteer = require("puppeteer");
 const path = require("path");
 const moment = require("moment");
+const axios = require("axios");
 const dbService = require("../../utils/dbService");
 const Message = require("../../utils/messages");
 
-const generateHtmlContent = (data) => {
-  let baseUrl = "https://voratechnosoft.com";
-  let liveUrl = process.env.NODE_URL;
+const getBase64FromUrl = async (url) => {
+  try {
+    const response = await axios.get(url, { responseType: "arraybuffer" });
+    const base64 = Buffer.from(response.data).toString("base64");
+    return `data:image/png;base64,${base64}`;
+  } catch (error) {
+    console.error(`Image download failed: ${url}`);
+    return ""; // Return empty to avoid breaking layout
+  }
+};
+
+const generateHtmlContent = async (data) => {
+  const liveUrl = process.env.NODE_URL || "http://159.65.149.67:3000/";
 
   // HTML template for each page
-  let htmlInvoiceTemplate = "<!DOCTYPE html><html lang='en-US'>";
+  let htmlTemplate = "<!DOCTYPE html><html lang='en-US'>";
 
-  htmlInvoiceTemplate +=
+  htmlTemplate +=
     "<head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0' /><title>Yashika Barcode</title>";
 
-  htmlInvoiceTemplate +=
-    "<style>@font-face {font-family: Gilroy-Bold; src: url('" +
-    baseUrl +
-    "/fonts/Gilroy-Bold.ttf');} body {font-family: Gilroy-Bold, sans-serif; background: #fff; text-align: center; margin: 0; padding: 10mm;} .barcode-wrapper { display: flex;justify-content: center;align-items: center;margin-bottom: 10mm;page-break-inside: avoid;} img { width: 340px; height: auto;} </style></head><body>";
+  htmlTemplate +=
+    "<style> body {font-family: Arial, sans-serif; background: #fff; text-align: center; margin: 0; padding: 10mm;} .barcode-wrapper { display: flex;justify-content: center;align-items: center;margin-bottom: 10mm;page-break-inside: avoid;} img { width: 340px; height: auto;} </style></head><body>";
 
   // Loop over the data for the current page
-  data.forEach((record) => {
-    const imageUrl = record?.vBarcodeImage
-      ? liveUrl + record?.vBarcodeImage
-      : "";
+  // data.forEach((record) => {
+  //   let imageUrl = record?.vBarcodeImage ? liveUrl + record?.vBarcodeImage : "";
 
-    htmlInvoiceTemplate +=
-      "<div class='barcode-wrapper'><img src='" +
-      imageUrl +
-      "' alt='barcode' /></div>";
-  });
+  //   htmlTemplate +=
+  //     "<div class='barcode-wrapper'><img src='" +
+  //     imageUrl +
+  //     "' alt='barcode' /></div>";
+  // });
 
-  htmlInvoiceTemplate += "</body></html>";
+  for (let record of data) {
+    let imageUrl = record?.vBarcodeImage ? liveUrl + record?.vBarcodeImage : "";
+    let base64Image = await getBase64FromUrl(imageUrl);
 
-  return htmlInvoiceTemplate;
+    htmlTemplate += `<div class='barcode-wrapper'><img src='${base64Image}' alt='barcode' /></div>`;
+  }
+
+  htmlTemplate += "</body></html>";
+
+  return htmlTemplate;
 };
 
 // Puppeteer-based PDF generation
@@ -47,13 +61,18 @@ const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
 
   const page = await browser.newPage();
 
+  await page.setViewport({ width: 1200, height: 800 });
+  await page.setUserAgent("Mozilla/5.0");
+
   await page.setContent(htmlContent, {
     // waitUntil: "domcontentloaded",
     waitUntil: "networkidle0",
+    // waitUntil: "waitForTimeout",
     timeout: 60000, // 60 seconds
   });
 
-  await page.waitForTimeout(3000);
+  // await page.waitForTimeout(3000);
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 
   await page.pdf({
     path: outputPath,
@@ -68,7 +87,6 @@ const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
       left: "10mm",
     },
   });
-  
 
   await browser.close();
 };

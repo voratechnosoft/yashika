@@ -53,7 +53,7 @@ const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
     timeout: 60000, // 60 seconds
   });
 
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(3000);
 
   await page.pdf({
     path: outputPath,

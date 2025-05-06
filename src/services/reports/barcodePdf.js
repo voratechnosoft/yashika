@@ -59,7 +59,19 @@ const generateHtmlContent = async (data) => {
 const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
   const browser = await puppeteer.launch({
     headless: "new",
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-gpu",
+      "--disable-dev-shm-usage",
+      "--disable-extensions",
+      "--disable-background-networking",
+      "--disable-sync",
+      "--metrics-recording-only",
+      "--mute-audio",
+      "--no-first-run",
+      "--safebrowsing-disable-auto-update",
+    ],
   });
 
   const page = await browser.newPage();
@@ -75,7 +87,7 @@ const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
   });
 
   // await page.waitForTimeout(3000);
-  await new Promise((resolve) => setTimeout(resolve, 6000));
+  await new Promise((resolve) => setTimeout(resolve, 12000));
 
   await page.pdf({
     path: outputPath,

@@ -40,8 +40,13 @@ const generateHtmlContent = async (data) => {
   //     "' alt='barcode' /></div>";
   // });
 
+  console.log("data------>", data);
+
   for (let record of data) {
+    console.log("record------>", record);
+    console.log("liveUrl------>", liveUrl);
     let imageUrl = record?.vBarcodeImage ? liveUrl + record?.vBarcodeImage : "";
+    console.log("imageUrl------>", imageUrl);
     let base64Image = await getBase64FromUrl(imageUrl);
 
     htmlTemplate += `<div class='barcode-wrapper'><img src='${base64Image}' alt='barcode' /></div>`;

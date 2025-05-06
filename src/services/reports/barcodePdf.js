@@ -44,7 +44,10 @@ const generateHtmlContent = async (data) => {
     let imageUrl = record?.vBarcodeImage ? liveUrl + record?.vBarcodeImage : "";
     let base64Image = await getBase64FromUrl(imageUrl);
 
-    htmlTemplate += `<div class='barcode-wrapper'><img src='${base64Image}' alt='barcode' /></div>`;
+    htmlTemplate +=
+      "<div class='barcode-wrapper'><img src='" +
+      base64Image +
+      "' alt='barcode' /></div>";
   }
 
   htmlTemplate += "</body></html>";
@@ -72,7 +75,7 @@ const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
   });
 
   // await page.waitForTimeout(3000);
-  await new Promise((resolve) => setTimeout(resolve, 10000));
+  await new Promise((resolve) => setTimeout(resolve, 6000));
 
   await page.pdf({
     path: outputPath,
@@ -136,7 +139,7 @@ const barcodePdf = async (req, res) => {
       fileName
     );
 
-    const htmlContent = generateHtmlContent(recordList);
+    const htmlContent = await generateHtmlContent(recordList);
 
     await generatePdfWithPuppeteer(htmlContent, pdfFilePath);
 

@@ -48,14 +48,17 @@ const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
   const page = await browser.newPage();
 
   await page.setContent(htmlContent, {
-    waitUntil: "domcontentloaded",
+    // waitUntil: "domcontentloaded",
+    waitUntil: "networkidle0",
     timeout: 60000, // 60 seconds
   });
+
+  await page.waitForTimeout(1000);
 
   await page.pdf({
     path: outputPath,
     format: "A4",
-    orientation: "portrait",
+    // orientation: "portrait",
     printBackground: true,
     // timeout: 60000,
     margin: {

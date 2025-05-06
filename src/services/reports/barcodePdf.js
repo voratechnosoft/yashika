@@ -58,7 +58,7 @@ const generateHtmlContent = async (data) => {
 // Puppeteer-based PDF generation
 const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
   const browser = await puppeteer.launch({
-    executablePath: '/usr/bin/chromium-browser',
+    executablePath: process.env.CHROMIUM_PATH,
     headless: true,
     // headless: "new",
     args: [
@@ -89,7 +89,8 @@ const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
   });
 
   // await page.waitForTimeout(3000);
-  await new Promise((resolve) => setTimeout(resolve, 12000));
+  // await new Promise((resolve) => setTimeout(resolve, 12000));
+  await page.waitForSelector('body', { visible: true });
 
   await page.pdf({
     path: outputPath,

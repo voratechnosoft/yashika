@@ -94,7 +94,8 @@ const list = async (entry) => {
           vUpdatedBy: 1,
         },
       },
-      { $sort: sortBy },
+      { $sort: { _id: -1 } },
+      // { $sort: sortBy },
       // { $skip: noOfDocSkip },
       // { $limit: docLimit },
     ];

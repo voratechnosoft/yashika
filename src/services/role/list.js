@@ -42,9 +42,10 @@ const list = async (entry) => {
           vName: 1,
         },
       },
-      { $sort: sortBy },
-      { $skip: noOfDocSkip },
-      { $limit: docLimit },
+      { $sort: { _id: -1 } },
+      // { $sort: sortBy },
+      // { $skip: noOfDocSkip },
+      // { $limit: docLimit },
     ];
     let dataList = await dbService.aggregateData("RoleModel", aggregateQuery);
 

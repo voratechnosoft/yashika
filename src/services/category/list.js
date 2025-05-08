@@ -43,9 +43,10 @@ const list = async (entry) => {
           vCategoryImage: 1,
         },
       },
-      { $sort: sortBy },
-      { $skip: noOfDocSkip },
-      { $limit: docLimit },
+      { $sort: { _id: -1 } },
+      // { $sort: sortBy },
+      // { $skip: noOfDocSkip },
+      // { $limit: docLimit },
     ];
     let dataList = await dbService.aggregateData(
       "CategoryModel",

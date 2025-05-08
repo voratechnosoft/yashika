@@ -99,7 +99,8 @@ const userInquiryRequestList = async (entry, res) => {
           dtUpdatedAt: 1,
         },
       },
-      { $sort: sortBy },
+      { $sort: { _id: -1 } },
+      // { $sort: sortBy },
       // { $skip: noOfDocSkip },
       // { $limit: docLimit },
     ];

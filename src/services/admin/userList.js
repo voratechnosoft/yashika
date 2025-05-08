@@ -73,6 +73,7 @@ const userList = async (payload) => {
         },
       },
       { $sort: { _id: -1 } },
+      // { $sort: sortBy },
       // { $skip: noOfDocSkip },
       // { $limit: docLimit },
     ];

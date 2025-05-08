@@ -218,8 +218,8 @@ const getAllSeller = async (entry) => {
         },
       },
       { $sort: { iSellerNumber: -1 } },
-      { $skip: noOfDocSkip },
-      { $limit: docLimit },
+      // { $skip: noOfDocSkip },
+      // { $limit: docLimit },
     ];
     let getRecordDetails = await dbService.aggregateData(
       "CatalogModel",

@@ -45,9 +45,10 @@ const list = async (entry) => {
           vGSTNO: 1,
         },
       },
-      { $sort: sortBy },
-      { $skip: noOfDocSkip },
-      { $limit: docLimit },
+      { $sort: { _id: -1 } },
+      // { $sort: sortBy },
+      // { $skip: noOfDocSkip },
+      // { $limit: docLimit },
     ];
     let dataList = await dbService.aggregateData("WorkerModel", aggregateQuery);
 

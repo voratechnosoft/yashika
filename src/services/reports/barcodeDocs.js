@@ -6,6 +6,7 @@ const path = require("path");
 const moment = require("moment");
 const dbService = require("../../utils/dbService");
 const Message = require("../../utils/messages");
+const { failAction } = require("../../utils/response");
 const BASE_URL = process.env.NODE_URL;
 
 let reportGenerateDate = moment(new Date()).format("DD-MM-YYYY");
@@ -41,7 +42,7 @@ const barcodeDocs = async (req, res) => {
     });
 
     if (!checkUserData?.arrUserAccess.includes("report")) {
-      throw new Error(Message.reportNotPermission);
+      return res.status(400).json(failAction(Message.reportNotPermission));
     }
 
     const data = await barcodeList();

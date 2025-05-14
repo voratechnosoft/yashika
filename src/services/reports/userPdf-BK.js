@@ -5,6 +5,7 @@ const moment = require("moment");
 const dbService = require("../../utils/dbService");
 const Message = require("../../utils/messages");
 const constants = require("../../config/constants");
+const { failAction } = require("../../utils/response");
 
 const generateHtmlContent = (data, pageIndex, totalPages, recordsPerPage) => {
   const startIndex = pageIndex * recordsPerPage;
@@ -182,7 +183,7 @@ const userPdf = async (req, res) => {
     });
 
     if (!checkUserData?.arrUserAccess.includes("report")) {
-      throw new Error(Message.reportNotPermission);
+      return res.status(400).json(failAction(Message.reportNotPermission));
     }
 
     const data = await userList();

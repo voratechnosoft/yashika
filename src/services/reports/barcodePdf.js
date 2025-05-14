@@ -6,6 +6,7 @@ const moment = require("moment");
 const axios = require("axios");
 const dbService = require("../../utils/dbService");
 const Message = require("../../utils/messages");
+const { failAction } = require("../../utils/response");
 
 const getBase64FromUrl = async (url) => {
   try {
@@ -91,7 +92,7 @@ const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
 
   // await page.waitForTimeout(3000);
   // await new Promise((resolve) => setTimeout(resolve, 12000));
-  await page.waitForSelector('body', { visible: true });
+  await page.waitForSelector("body", { visible: true });
 
   await page.pdf({
     path: outputPath,
@@ -128,7 +129,7 @@ const barcodePdf = async (req, res) => {
     });
 
     if (!checkUserData?.arrUserAccess.includes("report")) {
-      throw new Error(Message.reportNotPermission);
+      return res.status(400).json(failAction(Message.reportNotPermission));
     }
 
     const data = await barcodeList(arrDesignNumber);

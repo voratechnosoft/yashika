@@ -21,6 +21,7 @@ const getHomeDetails = require("../../../services/user/getHomeDetails");
 const getCategoryWiseCatalog = require("../../../services/user/getCategoryWiseCatalog");
 const updateDeviceToken = require("../../../services/user/updateDeviceToken");
 const onUserLogOut = require("../../../services/user/logout");
+const onDeActiveUser = require("../../../services/user/deActiveUser");
 const editUserProfile = require("../../../services/user/editUserProfile");
 const sellerCountUpdate = require("../../../services/user/sellerCountUpdate");
 const getAllSeller = require("../../../services/user/getAllSeller");
@@ -137,6 +138,14 @@ router.post(
     modelService: sellerCountUpdate,
     isRequestValidateRequired: true,
     schemaValidate: sellerCountUpdateSchema,
+  })
+);
+
+router.post(
+  "/deActiveUser",
+  commonResolver.bind({
+    modelService: onDeActiveUser,
+    isRequestValidateRequired: false,
   })
 );
 

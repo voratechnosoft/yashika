@@ -42,7 +42,7 @@ module.exports = {
 
   invalidMobile: "Mobile Number is incorrect",
   isUserActive: "This Number Already Active",
-  isUserBlock: "Your Number is Blocked, Please Contact Our Admin",
+  isUserBlock: "Your Number is Blocked/Deactivate, Please Contact Our Admin",
   invalidOTP: "Incorrect OTP. Try again.",
   invalidApkType: "Please Enter Valid Apk Type",
 

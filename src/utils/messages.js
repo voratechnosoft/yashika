@@ -30,21 +30,25 @@ module.exports = {
 
   emailNotExists: "This Email is not registered with us.",
   userNotExists: "This User is not exists.",
-  emailAlreadyExists: "Email is already registered with us.",
-  invalidCredentials: "Email or mobile is incorrect",
   tokenInExpire: "You were logged out due to inactivity",
   tokenExpire: "Your session is Expire",
 
+  emailAlreadyExists:
+    "This email is already used. Please try with another email.",
   nameAlreadyExists: "Name already exists!",
   mobileAlreadyExists: "Mobile Number already exists!",
   userEmailAlreadyVerified: "User email already verified.",
   otpExpired: "OTP is expired. Please Re-send OTP.",
 
   invalidMobile: "Mobile Number is incorrect",
+  invalidEmail: "Email is incorrect",
+  invalidCredentials: "Invalid credentials",
   isUserActive: "This Number Already Active",
+  isAccountSuspended: "Your account is suspended. Please contact support",
   isUserBlock: "Your Number is Blocked/Deactivate, Please Contact Our Admin",
   invalidOTP: "Incorrect OTP. Try again.",
   invalidApkType: "Please Enter Valid Apk Type",
+  newPasswordMustBeDifferentFromCurrent: "Your new password must be different from your current password",
 
   // Admin
   adminAlreadyExists: "Only One Admin Added.",

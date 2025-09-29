@@ -45,6 +45,11 @@ app.use(
 
 // app.use(express.static(path.join(process.cwd(), "public")));
 
+app.use("/views", express.static("/views"));
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 app.use("/api", routes);
 
 app.use((err, req, res, next) => {

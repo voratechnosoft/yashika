@@ -1,5 +1,7 @@
 module.exports = {
   BARCODE_NUMBER: 115466450,
+  OTP_LENGTH: 6,
+  OTP_EXPIRATION_TIME: 1000 * 60 * 10,
   PRODUCT_STATUS: {
     INVISIBLE: 1,
     VISIBLE: 2,
@@ -9,6 +11,13 @@ module.exports = {
     DEFAULT: 0,
     INQURY: 1,
     CATALOGUPDATE: 2,
+  },
+
+  USER_STATUS: {
+    PENDING: 1,
+    ACTIVE: 2,
+    SUSPEND: 3,
+    DELETE: 4,
   },
 
   ROLE_ID: {

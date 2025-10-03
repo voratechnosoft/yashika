@@ -15,7 +15,7 @@ const onRegister = async (entry, res) => {
     } = entry;
 
     let condition = {
-      vEmail: vEmail,
+      // vEmail: vEmail,
       vMobile: vMobile,
       isDeleted: false,
     };
@@ -30,7 +30,7 @@ const onRegister = async (entry, res) => {
 
     let user = await dbService.findOneRecord("UserModel", condition);
     if (user) {
-      throw new Error(Message.emailAlreadyExists);
+      throw new Error(Message.mobileAlreadyExists);
     }
 
     if (user?.isBlock) {

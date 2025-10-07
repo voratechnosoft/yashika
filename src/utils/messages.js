@@ -21,6 +21,8 @@ module.exports = {
   adminNotFound: "Invalid Admin.",
   userNotFound: "Invalid User.",
   catalogNotFound: "Invalid Catalog.",
+  oldPasswordNotMatch: "Invalid old password.",
+  newPasswordMatchOldPassword: "New password cannot be the same as the old password.",
 
   mobileAndMessageRequired: "Message and Mobile Number required",
   otpSendError: "Otp Send fail",

@@ -14,6 +14,7 @@ const likeAndUnLikeCatalogSchema = require("./likeAndUnLikeCatalog");
 const allSellerSchema = require("./allSeller");
 const allTrendingSchema = require("./allTrending");
 const likeListSchema = require("./likeList");
+const changePasswordSchema = require("./changePassword");
 
 // SERVICES
 const getUserDetails = require("../../../services/user/getUserDetails");
@@ -29,6 +30,7 @@ const getAllSeller = require("../../../services/user/getAllSeller");
 const getAllTrending = require("../../../services/user/getAllTrending");
 const likeAndUnLikeCatalog = require("../../../services/user/likeAndUnLikeCatalog");
 const getLikeList = require("../../../services/user/getLikeList");
+const onChangePassword = require("../../../services/user/changePassword");
 
 // Upload Image
 let storage = multer.diskStorage({
@@ -155,6 +157,15 @@ router.post(
   commonResolver.bind({
     modelService: onDeleteAccount,
     isRequestValidateRequired: false,
+  })
+);
+
+router.post(
+  "/change-password",
+  commonResolver.bind({
+    modelService: onChangePassword,
+    isRequestValidateRequired: true,
+    schemaValidate: changePasswordSchema,
   })
 );
 

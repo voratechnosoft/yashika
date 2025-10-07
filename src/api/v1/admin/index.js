@@ -17,6 +17,7 @@ const updateInquiryStatusSchema = require("./updateInquiryStatus");
 const deviceTokenSchema = require("./deviceToken");
 const editAdminProfileSchema = require("./editAdminProfile");
 const addBannerSchema = require("./addBanner");
+const changePasswordSchema = require("./changePassword");
 
 // SERVICES
 const onAdminRegister = require("../../../services/admin/register");
@@ -33,6 +34,8 @@ const editAdminProfile = require("../../../services/admin/editAdminProfile");
 const addBanner = require("../../../services/admin/addBanner");
 const bannerList = require("../../../services/admin/bannerList");
 const directLogOut = require("../../../services/admin/directLogOut");
+const onDeleteAccount = require("../../../services/admin/deleteAccount");
+const onChangePassword = require("../../../services/admin/changePassword");
 
 // Upload Image
 let storage = multer.diskStorage({
@@ -213,6 +216,23 @@ router.get(
   commonResolver.bind({
     modelService: directLogOut,
     isRequestValidateRequired: false,
+  })
+);
+
+router.post(
+  "/deleteAccount",
+  commonResolver.bind({
+    modelService: onDeleteAccount,
+    isRequestValidateRequired: false,
+  })
+);
+
+router.post(
+  "/change-password",
+  commonResolver.bind({
+    modelService: onChangePassword,
+    isRequestValidateRequired: true,
+    schemaValidate: changePasswordSchema,
   })
 );
 

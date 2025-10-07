@@ -62,7 +62,7 @@ const onLogin = async (entry, res) => {
     if (isNewUpdate) {
       const isMatch = await bcrypt.compare(vPassword, userData.vPassword);
       if (!isMatch) {
-        throw new Error("Please enter a valid password.");
+        throw new Error("Invalid password.");
       }
 
       let timezoneOffset =

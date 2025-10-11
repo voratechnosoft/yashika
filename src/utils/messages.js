@@ -44,7 +44,7 @@ module.exports = {
 
   invalidMobile: "Mobile Number is incorrect",
   invalidEmail: "Email is incorrect",
-  invalidCredentials: "Invalid credentials",
+  invalidCredentials: "Invalid id/password",
   isUserActive: "This Number Already Active",
   isAccountSuspended: "Your account is suspended. Please contact support",
   isUserBlock: "Your Number is Blocked/Deactivate, Please Contact Our Admin",

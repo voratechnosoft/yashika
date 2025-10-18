@@ -36,7 +36,7 @@ const transport = nodemailer.createTransport({
 });
 
 export const sendMail = async (mailOptions) => {
-  // console.log("sendMail called------------>", process.env.HOST);
+  console.log("sendMail called------------>", process.env.GMAIL_USER);
   await transport.sendMail(mailOptions, async (error, info) => {
     if (error) {
       console.log("sendMail error------------>", error);

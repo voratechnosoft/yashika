@@ -20,6 +20,7 @@ const verifyEmailOtp = require("../../../services/auth/verifyEmailOtp");
 const onReSendOtp = require("../../../services/auth/reSendOtp");
 const onForgotPassword = require("../../../services/auth/forgotPassword");
 const onReSetPassword = require("../../../services/auth/resetPassword");
+const onDeleteEmail = require("../../../services/auth/deleteEmail");
 
 router.post(
   "/register",
@@ -81,6 +82,14 @@ router.post(
     modelService: onReSetPassword,
     isRequestValidateRequired: true,
     schemaValidate: resetPasswordSchema,
+  })
+);
+
+router.post(
+  "/delete-email",
+  commonResolver.bind({
+    modelService: onDeleteEmail,
+    isRequestValidateRequired: false,
   })
 );
 

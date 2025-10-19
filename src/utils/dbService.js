@@ -309,6 +309,19 @@ const replaceRecords = async (modelName, where, payload, options) => {
   }
 };
 
+const deleteOneRecords = async (modelName, query) => {
+  try {
+    return await collections[modelName].deleteOne(query);
+  } catch (error) {
+    console.error(
+      "<<<<<<<<<<<<deleteOneRecords>>>>>>>>>>>>>",
+      modelName,
+      error
+    );
+    throw new Error(error);
+  }
+};
+
 module.exports = {
   findOneRecord,
   findAllRecords,
@@ -329,4 +342,5 @@ module.exports = {
   removeRecords,
   replaceRecords,
   findOneAndReplaceRecord,
+  deleteOneRecords,
 };

@@ -44,6 +44,7 @@ const onLogin = async (entry, res) => {
       throw new Error("Please complete the verification process");
     }
 
+    // temporary disable for login block section
     // if (userData?.isActive) {
     //   if (!userData?.isAdmin) {
     //     await dbService.findOneAndUpdateRecord(

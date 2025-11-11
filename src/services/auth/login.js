@@ -44,20 +44,20 @@ const onLogin = async (entry, res) => {
       throw new Error("Please complete the verification process");
     }
 
-    if (userData?.isActive) {
-      if (!userData?.isAdmin) {
-        await dbService.findOneAndUpdateRecord(
-          "UserModel",
-          condition,
-          { isActive: false, isBlock: true },
-          {
-            returnOriginal: false,
-          }
-        );
-      }
+    // if (userData?.isActive) {
+    //   if (!userData?.isAdmin) {
+    //     await dbService.findOneAndUpdateRecord(
+    //       "UserModel",
+    //       condition,
+    //       { isActive: false, isBlock: true },
+    //       {
+    //         returnOriginal: false,
+    //       }
+    //     );
+    //   }
 
-      throw new Error(Message.isUserActive);
-    }
+    //   throw new Error(Message.isUserActive);
+    // }
 
     if (isNewUpdate) {
       const isMatch = await bcrypt.compare(vPassword, userData.vPassword);

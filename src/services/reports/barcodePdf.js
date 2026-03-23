@@ -41,15 +41,25 @@ const generateHtmlContent = async (data) => {
   //     "' alt='barcode' /></div>";
   // });
 
-  for (let record of data) {
-    let imageUrl = record?.vBarcodeImage ? liveUrl + record?.vBarcodeImage : "";
-    let base64Image = await getBase64FromUrl(imageUrl);
+  const images = await Promise.all(
+    data.map((record) =>
+      getBase64FromUrl(record?.vBarcodeImage ? liveUrl + record?.vBarcodeImage : "")
+    )
+  );
 
-    htmlTemplate +=
-      "<div class='barcode-wrapper'><img src='" +
-      base64Image +
-      "' alt='barcode' /></div>";
-  }
+  images.forEach((img) => {
+    htmlTemplate += `<div class='barcode-wrapper'><img src="${img}" /></div>`;
+  });
+
+  // for (let record of data) {
+  //   let imageUrl = record?.vBarcodeImage ? liveUrl + record?.vBarcodeImage : "";
+  //   let base64Image = await getBase64FromUrl(imageUrl);
+
+  //   htmlTemplate +=
+  //     "<div class='barcode-wrapper'><img src='" +
+  //     base64Image +
+  //     "' alt='barcode' /></div>";
+  // }
 
   htmlTemplate += "</body></html>";
 
@@ -59,22 +69,22 @@ const generateHtmlContent = async (data) => {
 // Puppeteer-based PDF generation
 const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
   const browser = await puppeteer.launch({
-    executablePath: process.env.CHROMIUM_PATH,
+    // executablePath: process.env.CHROMIUM_PATH,
     headless: true,
     // headless: "new",
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
-      "--disable-gpu",
-      "--disable-dev-shm-usage",
-      "--disable-extensions",
-      "--disable-background-networking",
-      "--disable-sync",
-      "--metrics-recording-only",
-      "--mute-audio",
-      "--no-first-run",
-      "--safebrowsing-disable-auto-update",
-      "--remote-debugging-port=9222",
+      // "--disable-gpu",
+      // "--disable-dev-shm-usage",
+      // "--disable-extensions",
+      // "--disable-background-networking",
+      // "--disable-sync",
+      // "--metrics-recording-only",
+      // "--mute-audio",
+      // "--no-first-run",
+      // "--safebrowsing-disable-auto-update",
+      // "--remote-debugging-port=9222",
     ],
   });
 

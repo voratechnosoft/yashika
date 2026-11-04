@@ -68,57 +68,56 @@ const generateHtmlContent = async (data) => {
 
 // Puppeteer-based PDF generation
 const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
-  const browser = await puppeteer.launch({
-    // executablePath: process.env.CHROMIUM_PATH,
-    headless: true,
-    // headless: "new",
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      // "--disable-gpu",
-      // "--disable-dev-shm-usage",
-      // "--disable-extensions",
-      // "--disable-background-networking",
-      // "--disable-sync",
-      // "--metrics-recording-only",
-      // "--mute-audio",
-      // "--no-first-run",
-      // "--safebrowsing-disable-auto-update",
-      // "--remote-debugging-port=9222",
-    ],
-  });
+  let browser;
 
-  const page = await browser.newPage();
+  try {
+    browser = await puppeteer.launch({
+      executablePath: "/snap/bin/chromium",
+      headless: true,
+      timeout: 60000,
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+      ],
+    });
 
-  await page.setViewport({ width: 1200, height: 800 });
-  await page.setUserAgent("Mozilla/5.0");
+    const page = await browser.newPage();
 
-  await page.setContent(htmlContent, {
-    // waitUntil: "domcontentloaded",
-    waitUntil: "networkidle0",
-    // waitUntil: "waitForTimeout",
-    timeout: 60000, // 60 seconds
-  });
+    await page.setViewport({
+      width: 1200,
+      height: 800,
+    });
 
-  // await page.waitForTimeout(3000);
-  // await new Promise((resolve) => setTimeout(resolve, 12000));
-  await page.waitForSelector("body", { visible: true });
+    await page.setContent(htmlContent, {
+      waitUntil: "networkidle0",
+      timeout: 60000,
+    });
 
-  await page.pdf({
-    path: outputPath,
-    format: "A4",
-    // orientation: "portrait",
-    printBackground: true,
-    // timeout: 60000,
-    margin: {
-      top: "10mm",
-      right: "10mm",
-      bottom: "10mm",
-      left: "10mm",
-    },
-  });
+    await page.pdf({
+      path: outputPath,
+      format: "A4",
+      printBackground: true,
+      margin: {
+        top: "10mm",
+        right: "10mm",
+        bottom: "10mm",
+        left: "10mm",
+      },
+    });
 
-  await browser.close();
+  } catch (error) {
+    console.error("Puppeteer PDF Error:", error);
+    throw error;
+
+  } finally {
+    if (browser) {
+      await browser.close().catch((err) => {
+        console.error("Browser close error:", err);
+      });
+    }
+  }
 };
 
 const barcodePdf = async (req, res) => {

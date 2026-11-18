@@ -4,6 +4,7 @@ const puppeteer = require("puppeteer");
 const path = require("path");
 const moment = require("moment");
 const axios = require("axios");
+const fs = require("fs");
 const dbService = require("../../utils/dbService");
 const Message = require("../../utils/messages");
 const { failAction } = require("../../utils/response");
@@ -72,14 +73,19 @@ const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
 
   try {
     browser = await puppeteer.launch({
-      executablePath: "/snap/bin/chromium",
+      // executablePath: "/snap/bin/chromium",
+      executablePath: puppeteer.executablePath(),
       headless: true,
-      timeout: 60000,
+      timeout: 120000,
+      dumpio: true,
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
         "--disable-dev-shm-usage",
         "--disable-gpu",
+        "--no-zygote",
+        "--disable-extensions",
+        "--disable-background-networking"
       ],
     });
 
@@ -106,6 +112,8 @@ const generatePdfWithPuppeteer = async (htmlContent, outputPath) => {
         left: "10mm",
       },
     });
+
+    console.log("Barcode PDF generated successfully:", outputPath);
 
   } catch (error) {
     console.error("Puppeteer PDF Error:", error);
@@ -157,13 +165,16 @@ const barcodePdf = async (req, res) => {
 
     let fileName = "barcodePdf_" + formatted + ".pdf";
 
-    const pdfFilePath = path.join(
+    const pdfDirectory = path.join(
       __dirname,
       "../../../public",
       "pdf",
-      "barcodePdf",
-      fileName
+      "barcodePdf"
     );
+
+    fs.mkdirSync(pdfDirectory, { recursive: true });
+
+    const pdfFilePath = path.join(pdfDirectory, fileName);
 
     const htmlContent = await generateHtmlContent(recordList);
 
@@ -196,7 +207,10 @@ const barcodePdf = async (req, res) => {
     // });
   } catch (error) {
     console.error("barcodePdfError ----------->", error);
-    throw new Error(error?.message);
+    return res.status(500).json({
+      message: "Barcode PDF generation failed",
+      error: error.message
+    });
   }
 };
 
